@@ -40,43 +40,41 @@
     return false;
   }
 
-  //컴퓨터 임의의 수 3개 선택
-  var num = [1,2,3,4,5,6,7,8,9];
+  // 컴퓨터 임의의 수 3개 선택
+  var num = [];
   var comValue = [];
+  console.log(comValue);
 
+  for(var i=0;i<9;i++) {
+    num[i] = i+1;
+  }
   for (var i=0;i<3;i++) {
     var random = Math.floor(Math.random()*num.length);
     comValue[i] = num.splice(random,1)[0];
   }
-  console.log(comValue);
 
+ function baseball () {
+  // 사용자 입력 숫자 3개
+  var user = ip.value,
+      userValue = user.split(''),
+      strike = 0,
+      ball = 0,
+      nothing = 0;
 
-  function baseball () {
-
-  //사용자 입력 숫자 3개
-  var user = ip.value;
-  var userValue = user.split('');
-
-  // 초기화
-  var strike = 0;
-  var ball = 0;
-  var nothing = 0;
-
-  // for 함수 1회 사용해서 strike, ball, nothing 설정하기
-  for (var i=0;i<3;i++) {
-    if (comValue[i] == userValue[i]) {
-      strike++;
-    } else if (comValue[0] == userValue[i] || comValue[1] == userValue[i] || comValue[2] == userValue[i] ) {
-      ball++;
-    } else if (comValue[i] == userValue[i] && comValue[0] == userValue[i] || comValue[1] == userValue[i] || comValue[2] == userValue[i]) {
-      strike++;
-      ball++;
-    } else {
-      nothing++;
+  for (var k=0;k<3;k++) {
+    for (var j=0;j<3;j++) {
+      if ( comValue[k] == userValue[j] ) {
+        if ( k == j ){
+          strike++;
+        } else {
+          ball++;
+        }
+      } else {
+        nothing++;
+      }
     }
-  }
+  };
 
-  // div 박스에 결과 알리기
   if (strike == 3 ) {
     result.innerHTML += '3개의 숫자를 모두 맞히셨습니다! 게임 종료<br>';
   }  else if (strike != 0 && ball == 0) {
@@ -87,8 +85,8 @@
     result.innerHTML += ball+'볼<br>';
   } else {
     result.innerHTML += 'Nothing. 다시 시도해보세요!<br>';
-  }
-} //end
+  };
+}// end
 </script>
 </body>
 </html>
