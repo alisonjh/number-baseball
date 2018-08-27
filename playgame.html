@@ -30,63 +30,56 @@
 
 <!-- script -->
 <script>
-  //div 설정
-  var ip = document.getElementById('ip');
-  var btn = document.getElementById('btn');
-  var result = document.getElementById('result');
-
-  btn.onclick = function () {
-    baseball();
-    return false;
+  function gamestart() {
+    var result = baseballgame();
+    updateResult( result.strike, result.ball );
   }
 
-  // 컴퓨터 임의의 수 3개 선택
-  var num = [];
-  var comValue = [];
-  console.log(comValue);
+  function getThreeValue() {
+    for (var i = 0; i < 3; i++) {
+      var num = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      var random = Math.floor(Math.random() * num.length);
+      var finalRandomArr = [];
+      finalRandomArr[i] = num.splice(random, 1)[0];
+    }
+    return finalRandomArr;
+   }
 
-  for(var i=0;i<9;i++) {
-    num[i] = i+1;
-  }
-  for (var i=0;i<3;i++) {
-    var random = Math.floor(Math.random()*num.length);
-    comValue[i] = num.splice(random,1)[0];
-  }
+  function baseballgame() {
+   var strike = 0;
+   var ball = 0;
 
- function baseball () {
-  // 사용자 입력 숫자 3개
-  var user = ip.value,
-      userValue = user.split(''),
-      strike = 0,
-      ball = 0,
-      nothing = 0;
-
-  for (var k=0;k<3;k++) {
-    for (var j=0;j<3;j++) {
-      if ( comValue[k] == userValue[j] ) {
-        if ( k == j ){
-          strike++;
-        } else {
-          ball++;
+    for (var k = 0; k < 3; k++) {
+      for (var j = 0; j < 3; j++) {
+        var comValue = getThreeValue();
+        var userValue = document.getElementById('ip').value.split('');
+        if (comValue[k] == userValue[j]) {
+          if (k == j) {
+            strike++;
+          } else {
+            ball++;
+          }
         }
-      } else {
-        nothing++;
       }
     }
-  };
+    return {strike, ball};
+   }
 
-  if (strike == 3 ) {
-    result.innerHTML += '3개의 숫자를 모두 맞히셨습니다! 게임 종료<br>';
-  }  else if (strike != 0 && ball == 0) {
-    result.innerHTML += strike+'스트라이크<br>';
-  } else if (strike != 0 && ball != 0 ) {
-    result.innerHTML += strike+'스트라이크'+ball+'볼<br>';
-  } else if (strike == 0 && ball != 0 ) {
-    result.innerHTML += ball+'볼<br>';
-  } else {
-    result.innerHTML += 'Nothing. 다시 시도해보세요!<br>';
-  };
-}// end
+  function updateResult( strike, ball ) {
+    var result = document.getElementById('result');
+    if (strike == 3) {
+      result.innerHTML += '3개의 숫자를 모두 맞히셨습니다! 게임 종료<br>';
+    } else if (strike != 0 && ball == 0) {
+      result.innerHTML += strike + '스트라이크<br>';
+    } else if (strike != 0 && ball != 0) {
+      result.innerHTML += strike + '스트라이크' + ball + '볼<br>';
+    } else if (strike == 0 && ball != 0) {
+      result.innerHTML += ball + '볼<br>';
+    } else {
+      result.innerHTML += 'Nothing. 다시 시도해보세요!<br>';
+    }
+  }
+  
 </script>
 </body>
 </html>
