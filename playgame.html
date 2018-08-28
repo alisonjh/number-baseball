@@ -1,60 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>간단한 숫자 야구</title>
+  <title>baseball game</title>
   <style>
-  * {margin:0;padding:0}
-  .wrap {background: #eee;width:500px;height:150px;margin:30px auto}
-  .wrap .box p {text-align: center;padding:20px}
-  .wrap .ipbox #ip {height:30px;margin-left:100px;font-size: 1.2em;border:1px solid silver}
-  .wrap .ipbox #btn {width:50px;height:32px;background: #fff;border:1px solid silver}
-  #result {width:500px;margin:0 auto;padding:10px}
+  * {
+    margin: 0;
+    padding: 0
+  }
+
+  .wrap {
+    background: #eee;
+    width: 500px;
+    height: 150px;
+    margin: 30px auto
+  }
+
+  .wrap .box p {
+    text-align: center;
+    padding: 20px
+  }
+
+  .wrap .ipbox #userInput {
+    height: 30px;
+    margin-left: 100px;
+    font-size: 1.2em;
+    border: 1px solid silver
+  }
+
+  .wrap .ipbox #btn {
+    width: 50px;
+    height: 32px;
+    background: #fff;
+    border: 1px solid silver
+  }
+
+  #result {
+    width: 500px;
+    margin: 0 auto;
+    padding: 10px
+  }
+</style>
   </style>
 </head>
 <body>
-<!-- input form layout -->
-
-<div class="wrap">
-  <div class="box">
-    <p><label for="ip">1~9자리 숫자 중 3자리를 입력해주세요. (중복숫자금지)</label></p>
-    <div class="ipbox">
-      <input type="text" id="ip" name="ip" maxlength="3">
-      <input type="button" value="입력" id="btn">
+  <!-- input form layout -->
+  <div class="wrap">
+    <div class="box">
+      <p><label for="ip">1~9자리 숫자 중 3자리를 입력해주세요. (중복숫자금지)</label></p>
+      <div class="ipbox">
+        <input type="text" id="userInput" name="userInput" maxlength="3">
+        <input type="button" value="입력" onclick="baseball();">
+      </div>
     </div>
   </div>
-</div>
-<div id="result"></div>
-
-<!-- script -->
+  <div id="result"></div>
+</body>
 <script>
-  function gamestart() {
-    var result = baseballgame();
-    updateResult( result.strike, result.ball );
+  function baseball() {
+    var result = getScore();
+    output(result.strike, result.ball);
   }
 
-  function getThreeValue() {
+  function getRandomNum() {
+    var numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var randomArr = [];
+
     for (var i = 0; i < 3; i++) {
-      var num = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-      var random = Math.floor(Math.random() * num.length);
-      var finalRandomArr = [];
-      finalRandomArr[i] = num.splice(random, 1)[0];
+      var randomIndex = Math.floor(Math.random() * numArr.length);
+      randomArr[i] = numArr.splice(randomIndex, 1)[0];
     }
-    return finalRandomArr;
-   }
+    return randomArr;
+  }
 
-  function baseballgame() {
-   var strike = 0;
-   var ball = 0;
+  var comValue = getRandomNum();
 
-    for (var k = 0; k < 3; k++) {
-      for (var j = 0; j < 3; j++) {
-        var comValue = getThreeValue();
-        var userValue = document.getElementById('ip').value.split('');
-        if (comValue[k] == userValue[j]) {
-          if (k == j) {
+  function getScore() {
+    var strike = 0,
+      ball = 0,
+      userValue = document.getElementById('userInput').value.split('');
+
+    for (var j = 0; j < 3; j++) {
+      for (var k = 0; k < 3; k++) {
+        if (comValue[j] == userValue[k]) {
+          if (j == k) {
             strike++;
           } else {
             ball++;
@@ -62,24 +94,26 @@
         }
       }
     }
-    return {strike, ball};
-   }
+    return {
+      strike,
+      ball
+    };
+  }
 
-  function updateResult( strike, ball ) {
-    var result = document.getElementById('result');
+  function output(strike, ball) {
+    var result = document.getElementById("result")
+
     if (strike == 3) {
-      result.innerHTML += '3개의 숫자를 모두 맞히셨습니다! 게임 종료<br>';
-    } else if (strike != 0 && ball == 0) {
-      result.innerHTML += strike + '스트라이크<br>';
+      result.innerHTML += "축하합니다. 3가지 숫자를 모두 맞추셨습니다.<br>";
+    } else if ( strike != 0 && ball == 0) {
+      result.innerHTML += strike+"스트라이크<br>";
     } else if (strike != 0 && ball != 0) {
-      result.innerHTML += strike + '스트라이크' + ball + '볼<br>';
+      result.innerHTML += strike + "스트라이크 " + ball + "볼 <br>";
     } else if (strike == 0 && ball != 0) {
-      result.innerHTML += ball + '볼<br>';
+      result.innerHTML += ball + "볼<br>";
     } else {
-      result.innerHTML += 'Nothing. 다시 시도해보세요!<br>';
+      result.innerHTML += "안타깝네요. 다시 시도해주세요. <br>";
     }
   }
-  
 </script>
-</body>
 </html>
