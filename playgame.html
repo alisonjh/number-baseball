@@ -59,11 +59,30 @@
   <div id="result"></div>
 </body>
 <script>
-  function baseball() {
-    var result = getScore();
-    output(result.strike, result.ball);
-  }
+  
+  var verify = function () {
+    var userInput = document.getElementById('userInput').value;
+    var userInputArr = userInput.split('');
 
+    //입력값이 없을 때
+    if (!userInput) {
+       return alert("값을 입력해주세요");;
+    }
+    //숫자가 아닐 때
+    if (isNaN(userInput)) {
+       return alert("숫자를 입력해주세요");
+    }
+    //자릿수가 다를 때
+    if (userInput.length !== 3 ) {
+      return alert('3자리 숫자를 입력해주세요.');
+    }
+    //중복 확인
+    if (userInputArr[0] == userInputArr[1] || userInputArr[0] == userInputArr[2] || userInputArr[1] == userInputArr[2] ) {
+      return alert('중복되지 않는 숫자를 입력해주세요.');
+    }
+    return '';
+  }
+  
   function getRandomNum() {
     var numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     var randomArr = [];
@@ -114,5 +133,18 @@
       result.innerHTML += "안타깝네요. 다시 시도해주세요. <br>";
     }
   }
+  
+  function baseball() {
+    //유효성 검사
+    var validation = verify();
+    if (validation !== '') {
+      userInput.select();
+      return false;
+      }
+   
+    var result = getScore();
+    output(result.strike, result.ball);
+  }
+  
 </script>
 </html>
