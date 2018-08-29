@@ -94,28 +94,21 @@
     return randomArr;
   }
 
-  var comValue = getRandomNum();
+  var randomNum = getRandomNum();
 
   function getScore() {
     var strike = 0,
       ball = 0,
-      userValue = document.getElementById('userInput').value.split('');
+      userInput = document.getElementById('userInput').value.split('');
 
-    for (var j = 0; j < 3; j++) {
-      for (var k = 0; k < 3; k++) {
-        if (comValue[j] == userValue[k]) {
-          if (j == k) {
-            strike++;
-          } else {
-            ball++;
-          }
-        }
+    for (var i = 0; i<3 ; i++) {
+      if (userInput[i] == randomNum[i]) {
+        strike++; //스트라이크
+      } else if (randomNum.indexOf(Number(userInput[i])) !== -1 ) {
+        ball++; //볼
       }
     }
-    return {
-      strike,
-      ball
-    };
+    return { strike, ball };
   }
 
   function output(strike, ball) {
